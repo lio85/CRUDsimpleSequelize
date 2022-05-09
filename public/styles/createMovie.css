@@ -1,0 +1,118 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  background-image: linear-gradient(90deg, purple, orange);
+}
+
+/* forma abreviada de resetear los inputs para que no tengan borde por defecto (input) ni outline por defecto (input:focus). */
+input,
+select,
+input:focus,
+select:focus {
+  border: none;
+  outline: none;
+  font-size: 1.1rem;
+}
+
+/* .form__input:not(:placeholder-shown),
+.form__input:focus {
+  border-bottom: 1px solid #dcdcdc;
+  background-color: transparent;
+} */
+
+/* color de fondo del input, mientras se vea el placeholder */
+input:placeholder-shown {
+  background-color: #dcdcdc;
+}
+
+::placeholder {
+  padding-left: 1em;
+  font-size: 1.1rem;
+}
+
+.form {
+  width: 95%;
+  max-width: 450px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2em;
+  padding: 1em;
+  background-color: #fff;
+  border-radius: 1em;
+}
+
+.form__field {
+  margin-bottom: 1em;
+}
+
+.form__label {
+  display: inline-block;
+  margin-bottom: .5em;
+}
+
+.form__input {
+  height: 40px;
+  width: 100%;
+  border-radius: .5em;
+}
+
+.form__input:not(:placeholder-shown),
+.form__input:focus {
+  border-bottom: 1px solid #dcdcdc;
+  background-color: transparent;
+}
+
+.form__input:focus {
+  padding-left: 1em;
+}
+
+.form__input.form__input--select,
+.form__input.form__input--date {
+  padding-left: 1em;
+  border: none;
+  background-color: #dcdcdc;
+}
+
+.button {
+  width: 100%;
+  padding: 1em 2em;
+  border: none;
+  border-radius: 1em;
+  background-color: #0086d4;
+  color: #fff;
+  font-size: 1rem;
+}
+
+/* --------------------------------------------------------------- */
+
+.anchors-container {
+  display: flex;
+  justify-content: space-evenly;
+  width: 95%;
+  max-width: 450px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.button--anchor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40%;
+  padding: .5em 0;
+  border-radius: .5em;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+
+
+
+
+
+

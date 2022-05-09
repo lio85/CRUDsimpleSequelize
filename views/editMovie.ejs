@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="stylesheet" href="https://kit-pro.fontawesome.com/releases/v5.14.0/css/pro.min.css"> -->
+    <link rel="stylesheet" href="/styles/createMovie.css" />
+    <title>Revista Palermo - Nueva película</title>
+  </head>
+  <body>
+    <form class="form" action="/movies/<%=movie.id%>/update" method="post">
+    <!-- <form action="/peliculas/crear" method="POST"> -->
+      <h2 class="title">Editar Película</h2>
+      <!-- <p class="subtitle">
+        ¿Ya tienes cuenta?
+        <a href="#">Iniciar sesión</a>
+      </p> -->
+      <div class="form__field">
+        <label for="email" class="form__label">Título</label>
+        <input type="text" id="email" class="form__input" value="<%=movie.title%>" name="title">
+      </div>
+      <div class="form__field">
+        <label for="name" class="form__label">Ráting</label>
+        <input type="text" id="name" class="form__input" value="<%=movie.rating%>" name="rating">
+      </div>
+      <div class="form__field">
+        <label for="surname" class="form__label">Premios</label>
+        <input type="number" id="surname" class="form__input" value="<%=movie.awards%>" name="awards">
+      </div>
+      
+      <div class="form__field">
+        <label for="surname" class="form__label">Duración (minutos)</label>
+        <input type="number" id="surname" class="form__input" value="<%=movie.length%>" name="length">
+      </div>
+
+      <div class="form__field">
+        <label for="surname" class="form__label">Fecha de estreno</label>
+        <!-- value="2022-08-05" -->
+        <input type="date" id="surname" class="form__input form__input--date" value="<%= releaseDate%>" name="release_date">
+      </div>
+
+      <div class="form__field">
+        <label for="surname" class="form__label">Género</label>
+        <!-- <input id="surname" class="form__input" placeholder="Ej.: 4"> -->
+        <select class="form__input form__input--select" name="genre" id="">
+           <!--  <option disabled selected>Todos</option> -->
+            <%for(genre of genreList){%>
+              <%if(movie.genre_id == genre.id){%>
+                <option value="<%=genre.id%>" selected> <%=genre.name%> </option>
+              <%}else{%>
+                <option value="<%=genre.id%>"><%=genre.name%></option>
+              <%}%>                          
+            <%}%>  
+        </select>
+      </div>
+
+      <input type="submit" value="Enviar" class="button">
+    </form>
+   
+    <div class="anchors-container">
+        <a class="button button--anchor" href="/">Inicio</a>
+        <a class="button button--anchor" href="/movies">Listado de películas</a>
+    </div>
+  </body>
+</html>

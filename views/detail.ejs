@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1><%= object.pelicula %></h1>
+    <h2>Género: <%= object.genero %></h2>
+    <div>
+        <h3>Actores</h3>
+        <ul>
+            <% for (actor of object.actores) { %>
+                <li>
+                    <a href="#">
+                        <%= actor %>
+                    </a>
+                </li>
+            <% } %>  
+        </ul>
+    </div>
+    <a href="/movies">Listado de películas</a>
+    <br>
+    <a href="/">Inicio</a>
+
+    <br><br><br>
+    
+    <a href="/movies/<%=object.id%>/edit">
+        <button>Editar</button>
+    </a>
+    <form class="form" action="/movies/<%=object.id%>/delete" method="post">
+    <!-- <form action="/peliculas/borrar/ pelicula.id " method="POST"> -->
+        <button type="submit">Borrar</button>
+    </form>
+</body>
+</html>
