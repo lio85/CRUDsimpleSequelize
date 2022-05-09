@@ -1,0 +1,159 @@
+1. creacion de app.js
+2. npm init -y
+3. npm install
+4. npm install express --save
+5. npm install ejs--save
+6. npm install sequelize --save
+7. npm install sequelize-cli --save
+8. npm install --save mysql2
+
+9. En la carpeta raiz creé el archivo .sequelizerc y le agregué este código para que se cree la carpeta database con el contenido configurado dentro de la carpeta /src (la cual estaba previamente creada).
+
+const path = require('path')
+
+module.exports = {
+  config: path.resolve('./src/database/config', 'config.js'),
+  'models-path': path.resolve('./src/database/models'),
+  'seeders-path': path.resolve('./src/database/seeders'),
+  'migrations-path': path.resolve('./src/database/migrations'),
+}
+
+10. Corrí el comando sequelize init, que ejecuto el paso 9.
+11. Edite el archivo "/src/database/config/config.js" (es el archivo donde configuraremos la conexion a la db deseada) agregandole antes del objeto .json, module.exports=
+12. Dentro de dicho archivo, configure la propiedad "development" para que el proyecto se conecte a la base movies_db, la cual esta corriendo en nuestro servidor local (XAMPP, servidor 3306) (VERIFICAR), como muestro a continuacion
+
+  "development": {
+    "username": "root",
+    "password": null,
+    "database": "movies_db",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+
+13. Lo siguiente es crear y configurar los modelos (representacion en nuestro back-end de las tablas de la db a las que querramos acceder) dentro de /src/database/models
+
+14. Luego podemos requerir el objeto db (el cual es exportado desde /src/database/models/index.js) en cualquier controlador, como muestro a continuacion...
+      const db= require("../database/models");
+
+    ... y con este objeto realizar consultas a la base de datos a la que nuestro back-end este conectado, como muestro a continuacion...
+      db.Pelicula.findAll()
+        .then (function (peliculas) {
+            res.render('index', {peliculas})
+        })
+
+15. const Op= db.Sequelize.Op;
+    console.log(Op); vvvvvvvvv
+
+    {
+      eq: Symbol(eq),
+      ne: Symbol(ne),
+      gte: Symbol(gte),
+      gt: Symbol(gt),
+      lte: Symbol(lte),
+      lt: Symbol(lt),
+      not: Symbol(not),
+      is: Symbol(is),
+      in: Symbol(in),
+      notIn: Symbol(notIn),
+      like: Symbol(like),
+      notLike: Symbol(notLike),
+      iLike: Symbol(iLike),
+      notILike: Symbol(notILike),
+      startsWith: Symbol(startsWith),
+      endsWith: Symbol(endsWith),
+      substring: Symbol(substring),
+      regexp: Symbol(regexp),
+      notRegexp: Symbol(notRegexp),
+      iRegexp: Symbol(iRegexp),
+      notIRegexp: Symbol(notIRegexp),
+      between: Symbol(between),
+      notBetween: Symbol(notBetween),
+      overlap: Symbol(overlap),
+      contains: Symbol(contains),
+      contained: Symbol(contained),
+      adjacent: Symbol(adjacent),
+      strictLeft: Symbol(strictLeft),
+      strictRight: Symbol(strictRight),
+      noExtendRight: Symbol(noExtendRight),
+      noExtendLeft: Symbol(noExtendLeft),
+      and: Symbol(and),
+      or: Symbol(or),
+      any: Symbol(any),
+      all: Symbol(all),
+      values: Symbol(values),
+      col: Symbol(col),
+      placeholder: Symbol(placeholder),
+      join: Symbol(join),
+      match: Symbol(match)
+    }
+
+----------------------------------------------------------------------------------------------
+
+app.js de Mameli vvv
+
+
+const express = require ('express');
+const app = express();
+const path = require ('path');
+const indexRoutes = require('./src/routes/indexRoutes');
+const productRoutes = require('./src/routes/productRoutes');
+const userRoutes = require('./src/routes/userRoutes');
+const methodOverride= require('method-override');
+const session = require('express-session');
+
+const cors = require('cors');
+
+// implementando cors
+app.use(cors())
+// implementando cors
+
+
+//const session = require('cookie-session');
+
+//const cookies= require('cookie-parser');
+
+//const cookieLogin = require('./src/middlewares/cookieLogin');
+
+// app.listen(3000, () => {
+//     console.log('Servidor 3000 corriendo');
+// })
+app.use(session({
+	secret: "It's a secret",
+	resave: false,
+	saveUninitialized: false,
+}));
+
+app.listen(process.env.PORT || 3000, function(){
+    console.log('Servidor corriendo en puerto 3000');
+});
+
+/*
+app.use(session({
+	secret: "It's a secret",
+	resave: false,
+	saveUninitialized: false,
+}));
+*/
+//app.use(cookies());
+
+//app.use(cookieLogin);
+
+app.use(express.urlencoded({ extended: false }));
+
+app.use(express.json());
+
+app.use(express.static(path.resolve(__dirname , './public')));
+
+app.use(methodOverride('_method'));
+
+app.set('view engine' , 'ejs');
+app.use('/' , indexRoutes);
+
+app.use('/product' , productRoutes);
+
+
+app.use('/users' , userRoutes);
+
+app.get("*", (req,res) => {
+	res.redirect("/error")
+})
